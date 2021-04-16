@@ -1,0 +1,35 @@
+version: '3.5'
+services:
+  revenue.summary:
+    container_name: revenue.summary
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/home/jupyter/jupyter_default_dir
+    environment:
+      # dummy configure
+      - AWS_DEFAULT_REGION=ap-northeast-1
+      - AWS_DEFAULT_OUTPUT=json
+      - AWS_ACCESS_KEY_ID=xxx
+      - AWS_SECRET_ACCESS_KEY=xxx
+    ports:
+      - 8888:8888
+    networks:
+      - revenue.network
+    command: /home/jupyter/jupyter_start.sh
+  revenue.s3.local:
+    image: localstack/localstack:0.12.8
+    environment:
+      - SERVICES=s3
+      - DEFAULT_REGION=ap-northeast-1
+      # dummy configure
+      - AWS_DEFAULT_REGION=ap-northeast-1
+      - AWS_DEFAULT_OUTPUT=json
+      - AWS_ACCESS_KEY_ID=xxx
+      - AWS_SECRET_ACCESS_KEY=xxx
+    networks:
+      - revenue.network
+networks:
+  revenue.network:
+    name: revenue.network
