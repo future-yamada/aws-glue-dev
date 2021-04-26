@@ -15,6 +15,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=xxx
     ports:
       - 8888:8888
+      - 4040:4040
     networks:
       - revenue.network
     command: /home/jupyter/jupyter_start.sh
